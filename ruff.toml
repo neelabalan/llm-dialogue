@@ -1,0 +1,2 @@
+[lint.isort]
+force-single-line = true
