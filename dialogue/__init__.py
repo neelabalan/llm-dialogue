@@ -70,10 +70,17 @@ class OneOnOneDialogueManager:
 
     def run_dialogue(self, initial_prompt: str, iterations: int = 5):
         # Logic to control the flow of the dialogue
-        response = initial_prompt
+        response = f"Conversation starter: {initial_prompt}\n\n"
         for i in range(iterations):
             current_participant = self.participants[i % 2]
-            response = current_participant.dispatch(response)
+            conv_response = current_participant.dispatch(response)
+            # need to be handled properly. This is a hack
+            if conv_response.startswith(f"{current_participant.__class__.__name__}:"):
+                response += f"{conv_response}\n\n"
+            else:
+                response += (
+                    f"{current_participant.__class__.__name__}: {conv_response}\n\n"
+                )
             self.memory.append(
                 {
                     "timestamp": datetime.datetime.now(),
@@ -81,3 +88,7 @@ class OneOnOneDialogueManager:
                     "response": response,
                 }
             )
+        import time
+
+        with open(f"response.{time.time()}", "w") as f:
+            f.write(response)

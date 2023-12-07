@@ -20,5 +20,6 @@ class Programmer(GPTDialogueParticipant):
 
 if __name__ == "__main__":
     OneOnOneDialogueManager([Programmer(), CodeReviewer()]).run_dialogue(
-        "Write a python code to find the sum of all numbers in a list", iterations=5
+        """Write a python function which deletes an IAM user using the Boto3 SDK""",
+        iterations=5,
     )
